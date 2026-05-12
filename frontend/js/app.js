@@ -5100,3 +5100,4 @@ function refrescarPantallaActual() {
    else if(document.querySelector('.zcard')) pgZonas();
    else pgDashboard();
 }
+
