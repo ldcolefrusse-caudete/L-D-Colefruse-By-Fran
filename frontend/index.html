@@ -5336,6 +5336,53 @@ function refrescarPantallaActual() {
    else pgDashboard();
 }
 
+
+  onst API_URL = "https://script.google.com/macros/s/AKfycbyXC6EOgIQW4btapv4FJ2QYYgjNvyj7F4I20E5xugEuwyXd16SQKjS0DAJnKzyqjtaT/exec";
+
+async function api(action, payload = {}) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token: localStorage.getcItem('token'),
+        accion: action,
+        payload
+      })
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+    return {
+      ok: false,
+      msg: err.message
+    };
+  }
+}
+
+  async function doLogin() {
+  const usuario = document.getElementById('luu').value;
+  const password = document.getElementById('lpp').value;
+
+  const r = await api('login', {
+    usuario,
+    password
+  });
+
+  if (!r.ok) {
+    alert(r.msg);
+    return;
+  }
+
+  localStorage.setItem('token', r.token);
+  localStorage.setItem('usuario', JSON.stringify(r.usuario));
+
+  location.reload();
+}
+
 </script>
 <button class="no-print" onclick="window.open(window.location.href, '_top')" style="
   position: fixed;
